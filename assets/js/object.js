@@ -1,14 +1,27 @@
 class Object {
-    constructor(ctx,x,y,object) {
-       this.x = x;
-       this.y = y;
+    constructor(ctx,object) {
+        this.ctx = ctx;
+
+
        
         this.object = object;
-        this.ctx = ctx;
+       
         this.image = new Image();
         this.image.src = this.object.imagePath;
-   //     this.image.src = "./assets/img/objects/pumpkin.png"
         this.image.isReady = false;
+        this.scale = this.object.scale;
+        this.image.onload = () => {
+            this.image.isReady = true;
+            this.width = this.image.width/this.scale;
+            this.height= this.image.height/this.scale;
+            this.x = Math.floor(Math.random()*(this.ctx.canvas.width - this.width) )
+            this.y = Math.floor(Math.random()*(this.ctx.canvas.height - this.height) )
+            console.log(`image onload `)
+        }
+  
+ 
+   //     this.image.src = "./assets/img/objects/pumpkin.png"
+        
         /*
         this.images = [
             {
@@ -27,7 +40,8 @@ class Object {
         ];
         */
 
-
+       console.log(`object ${this.x} ${this.y}`)
+    
 
         // end constructor
     }
@@ -36,13 +50,13 @@ class Object {
     draw() {
     
      //   console.log(object)
-       
+    // console.log(`object draw ${this.x} ${this.y}`)
         this.ctx.drawImage(
             this.image,
             this.x,
             this.y,
-            this.image.width/this.object.scale,
-            this.image.height/this.object.scale
+            this.width,
+            this.height 
 
 
         )
@@ -52,6 +66,15 @@ class Object {
 
 
 
+    }
+    collideWith(element){
+         // if the four conditions are true there is a collition
+         console.log(`object collidewith ${this.x} ${this.y} ${this.image.complete}`)
+         
+ return this.x < element.x + element.width  // collition by right side
+ &&  this.x + this.width > element.x              // collition by left side
+ &&  this.y < element.y + element.height   // frontal collition
+ && this.y + this.height > element.y       // back collition
     }
     //end class
 }

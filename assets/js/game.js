@@ -8,6 +8,8 @@ class Game {
         this.player= new Player(this.ctx,POSX_INI_PLAYER,POSY_INI_PLAYER)
         this.objects = []
         this.drawInterval =undefined;
+        this.objCountDraw = 0
+        this.numMaxobjects= 5;
    
     }
     startGame() {
@@ -28,7 +30,11 @@ class Game {
               this.clear();
               this.move();
               this.draw();
-              this.addObject();
+              this.objCountDraw++
+              if (this.objCountDraw % OBJECTS_FRAME === 0 && this.objects.length < this.numMaxobjects){
+                this.addObject();
+                this.objCountDraw = 0
+              }
         //      this.obstDrawCount++
               // add obstacles  
         //      if (this.obstDrawCount % OBSTACLES_FRAMES === 0) {
@@ -72,15 +78,16 @@ class Game {
  // select one object ramdomly from IMAGES array
   const index = Math.floor(Math.random() * IMAGES.length);
  // calculate position in board.
- let objX = Math.floor(Math.random()*(this.width))
- let objY = Math.floor(Math.random()*(this.height))
  
-  const object = new Object(this.ctx,objX,objY,IMAGES[index]);
-  
+  let newObject = new Object(this.ctx,IMAGES[index]);
+  // checks if there is some object in the coordenates calculates for the new object. In that case recalculate the coordenates
+  while (this.objects.some(object => newObject.collideWith(object))) {
+    newObject = new Object(this.ctx,IMAGES[index]);
+  }
  
   
   //add object to objects array
-  this.objects.push(object);
+  this.objects.push(newObject);
 
  }
 // class end

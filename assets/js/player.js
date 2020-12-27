@@ -16,7 +16,7 @@ class Player {
         this.player.verticalFrames = 1
         this.player.horizontalFrameIndex = 0
         this.player.verticalFrameIndex = 0
-        this.player.scale = 10
+        this.player.scale = 13
         this.player.drawCount = 0
 
         this.movements = {
@@ -155,5 +155,15 @@ class Player {
         }
     }
 
+
+    collidesWith(element){
+        // if the four conditions are true there is a collition
+  //      console.log(`player collidewith ${this.x} ${this.y} ${this.image.complete}`)
+        
+return this.x < element.x + element.width  // collition by right side
+&&  this.x + this.width > element.x              // collition by left side
+&&  this.y < element.y + element.height   // frontal collition
+&& this.y + this.height > element.y       // back collition
+   }
     // End Class
 }

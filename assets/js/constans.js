@@ -7,6 +7,7 @@ const KEY_DOWN =  40// "ArrowDown"
 const MOVEMENT_FRAMES = 6;
 const SPEED = 5;
 const OBJECTS_FRAME = 120;
+const GHOST_FRAME = 300;
 
 IMAGES = [
     {

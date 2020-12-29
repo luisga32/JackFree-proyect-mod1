@@ -11,7 +11,10 @@ class Player {
 
         this.player = new Image();
         this.player.src = "./assets/img/jackfree/spritesheet.png";
+        this.playerDead =undefined;
         this.player.isReady = false;
+        this.isplayerDead = false;
+        this.playerDeadIsReady  =false
         this.player.horizontalFrames = 9
         this.player.verticalFrames = 1
         this.player.horizontalFrameIndex = 0
@@ -29,8 +32,8 @@ class Player {
 
             this.player.frameWidth = (this.player.width / this.player.horizontalFrames)
             this.player.frameHeight = (this.player.height / this.player.verticalFrames)
-            this.width = this.player.frameWidth / this.player.scale
-            this.height = this.player.frameHeight / this.player.scale
+            this.width = Math.floor(this.player.frameWidth / this.player.scale)
+            this.height = Math.floor(this.player.frameHeight / this.player.scale)
             this.player.isReady = true;
 
 
@@ -64,6 +67,33 @@ class Player {
 
         }
 
+    }
+    drawDead() {
+  
+            this.ctx.drawImage(
+                this.playerDead,
+                this.x,      // x coordinate destination
+                this.y,      // y coordinate destination
+                this.playerDead.width/this.player.scale,   // The width to draw the image in the destination canvas.
+                this.playerDead.height/this.player.scale  //The height to draw the image in the destination canvas.
+
+            )
+      
+
+    }
+
+    CreateplayerDead() {
+        this.player.isplayerDead = true;
+        this.playerDead =new Image()
+        this.playerDead.src = "./assets/img/jackfree/Dead.png";
+
+  
+        
+      
+
+    }
+    isPlayerDead(){
+        return this.player.isplayerDead;
     }
 
     animate() {
@@ -159,7 +189,10 @@ class Player {
     collidesWith(element){
         // if the four conditions are true there is a collition
   //      console.log(`player collidewith ${this.x} ${this.y} ${this.image.complete}`)
-        
+  
+       
+
+
 return this.x < element.x + element.width  // collition by right side
 &&  this.x + this.width > element.x              // collition by left side
 &&  this.y < element.y + element.height   // frontal collition

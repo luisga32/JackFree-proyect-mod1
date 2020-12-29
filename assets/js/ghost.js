@@ -14,8 +14,8 @@ class Ghost {
 
         this.ghostImg.onload = () => {
             this.ghostImg.isReady = true;
-            this.width = this.ghostImg.width / this.scale;
-            this.height = this.ghostImg.height / this.scale;
+            this.width = Math.floor(this.ghostImg.width / this.scale);
+            this.height = Math.floor(this.ghostImg.height / this.scale);
     //        this.x = Math.floor(Math.random() * (this.ctx.canvas.width - this.width))
   
           //  console.log(`image onload `)
@@ -61,7 +61,7 @@ class Ghost {
     }
 
     // collides ghost with player
-    collideWith(element) {
+    collidesWith(element) {
         // if the four conditions are true there is a collition
               
           

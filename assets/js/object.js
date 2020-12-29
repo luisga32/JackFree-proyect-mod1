@@ -13,8 +13,8 @@ class Object {
 
         this.image.onload = () => {
             this.image.isReady = true;
-            this.width = this.image.width / this.scale;
-            this.height = this.image.height / this.scale;
+            this.width = Math.floor(this.image.width / this.scale);
+            this.height = Math.floor(this.image.height / this.scale);
             this.x = Math.floor(Math.random() * (this.ctx.canvas.width - this.width))
             this.y = Math.floor(Math.random() * (this.ctx.canvas.height - this.height))
           //  console.log(`image onload `)
@@ -46,7 +46,11 @@ class Object {
     }
 
     }
-  
+   isReady() {
+       return this.image.isReady;
+   }
+
+   
   
     collideWith(element) {
         // if the four conditions are true there is a collition

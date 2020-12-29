@@ -6,6 +6,7 @@ class Game {
     this.fps = 1000 / 60;
     this.board = new Board(this.ctx);
     this.player = new Player(this.ctx, POSX_INI_PLAYER, POSY_INI_PLAYER)
+ 
     this.objects = []
     this.ghosts = []
     this.numMaxGhosts = 5
@@ -50,15 +51,17 @@ class Game {
           this.addGhost();
 
         }
-        else {
+        else if (!this.addGhostTimeoutID){
+           
           this.addGhostTimeoutID = setTimeout(() => {
             this.numghosts = 0;
             this.ghostY = 0;
             this.newGroupGhosts = true;
+            this.addGhostTimeoutID =undefined;
           }
             , GHOST_FRAME)
         }
-
+        
 
 
 
@@ -77,6 +80,9 @@ class Game {
         //        }
         //check collitions
         this.checkCollisions();
+ 
+        //}
+        
       }, this.fps)
     }
   }
@@ -92,7 +98,16 @@ class Game {
 
   draw() {
     this.board.draw();
+
+    if (this.player.isPlayerDead()){
+      // if (this.player.playerDead.isReady())
+   
+       this.player.drawDead();
+       this.pause()
+    } else {
     this.player.draw();
+
+  }
     this.objects.forEach(object => object.draw());
     this.ghosts.forEach(ghost => ghost.draw());
 
@@ -113,28 +128,50 @@ class Game {
   addObject() {
     // select one object ramdomly from IMAGES array
     const index = Math.floor(Math.random() * IMAGES.length);
-    // calculate position in board.
+    // create a new object
 
-    let newObject = new Object(this.ctx, IMAGES[index]);
-    // checks if there is some object in the coordenates calculates for the new object. In that case recalculate the coordenates
-    while (this.objects.some(object => newObject.collideWith(object))) {
-      newObject = new Object(this.ctx, IMAGES[index]);
-    }
+    const newObject = new Object(this.ctx, IMAGES[index]);
+ 
+  
+    // checks if there is some object in the coordenates calculates for the new object. In that case create a new object
+    const objIntervalId = setInterval (() => {
+      if (newObject.isReady()){
+        if (this.objects.some(object => newObject.collideWith(object))) {
+         this.addObject();
+        } else {
+         this.objects.push(newObject);
+        
+       }
+
+       clearInterval(objIntervalId);
+     }
+   })
+   // checks if there is some object in the coordenates calculates for the new object. In that case recalculate the coordenates
+ //  while (this.objects.some(object => newObject.collideWith(object))) {
+ //    newObject = new Object(this.ctx, IMAGES[index]);
+ //  }
 
 
     //add object to objects array
-    this.objects.push(newObject);
+  //  this.objects.push(newObject);
 
   }
+
+  
+  
 
   addGhost() {
 
     if (this.newGroupGhosts) {
       this.ghostX =Math.floor(Math.random() * (this.width - this.ghostimgWidth))
       this.newGhost = new Ghost(this.ctx, this.ghostX, this.ghostY);
-      this.newGroupGhosts = false;
+      if (!this.ghosts.some(ghost => this.newGhost.collidesWith(ghost))){
+        this.newGroupGhosts = false;
+      }
     } else {
       if (this.newGhost.isReady()) {
+
+     
         this.ghosts.unshift(this.newGhost);
         this.numghosts++;
         if (this.numghosts < this.numMaxGhosts) {
@@ -159,16 +196,8 @@ class Game {
     const ghostCollided = this.ghosts.some(ghost => this.player.collidesWith(ghost));
 
     if (ghostCollided){
-   /*   console.log(`object collidewith x :${this.x} y:  ${this.y} 
-              width ${this.width}
-              heigh ${this.height}
-              element x :${element.x} element y:  ${element.y} 
-              width ${element.width}
-              heigh ${lement.height}
-            
-              `)
-     */
-              this.pause();
+              this.player.CreateplayerDead();   
+ 
     }
       // collition with and object 
       const objCollided = this.objects.filter(object => this.player.collidesWith(object));
@@ -189,6 +218,7 @@ class Game {
 
   }
   pause(){
+
     clearInterval(this.drawInterval)
   }
 

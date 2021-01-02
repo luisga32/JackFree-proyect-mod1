@@ -1,21 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanalei+Fill&display=swap');
 html, body {
-    width: 100%;
-    height: 100%;
+
     padding: 0;
     margin: 0;
+    font-family: 'Hanalei Fill', cursive;
   }
   
   * {
     box-sizing: border-box;
+ /*   border:1px red solid !important;*/
   }
+  body {
+     background: rgb(117,57,83);
+background: linear-gradient(90deg, rgba(117,57,83,1) 0%, rgba(78,6,91,1) 94%); 
+  }
+
   
 
+  h1 {
+    width: 80%;
+    text-align: center;
+    
+    font-size: 70px;
+    margin-left: 10%;
+    margin-left: 10%;
+    ;
+  
+   
+  
+  }
+
+  #Jackimg {
+    width: 95px;
+    height: 88px;
+    object-fit: contain;
+  }
+  #ghostimg  {
+    width: 95px;
+    height: 80px;
+    object-fit: contain;
+    margin-left: 30px;
+  }
+  
+main {
+  display:flex;
+  height: 700px;
+}
 #game-board {
         
         background-size: cover;
         background-position: center center;
         width: 100%;
-        height: 100vh;
+        height: 700px;
       
     
 }
@@ -23,7 +59,32 @@ canvas {
     border: 1px solid black;
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 58%;
     transform: translate(-50%, -50%);
     overflow: hidden;
+  }
+ aside {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+  
+   width: 32%;
+   font-size: 30px;
+
+ }
+ #menu {
+   align-items: center;
+ }
+  .button {
+    width:150px;
+    height: 80px;
+   background-color: orangered;
+   border-radius: 5px;
+   font-family: 'Hanalei Fill';
+   font-size: 20px;
+   margin: 20px;
+   
+  }
+  #score {
+
   }

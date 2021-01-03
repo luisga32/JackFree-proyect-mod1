@@ -6,7 +6,11 @@ const game =new Game(ctx);
 window.onload = () => {
   game.draw();
   document.getElementById('start-button').onclick = () => {
+    game.initialice();
     game.startGame();
+  } 
+  document.getElementById('pause-button').onclick = () => {
+   game.pause();
   } 
     // control cuando pulsan una tecla
 

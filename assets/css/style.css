@@ -23,7 +23,7 @@ background: linear-gradient(90deg, rgba(117,57,83,1) 0%, rgba(78,6,91,1) 94%);
     
     font-size: 70px;
     margin-left: 10%;
-    margin-left: 10%;
+
     ;
   
    
@@ -85,6 +85,8 @@ canvas {
    margin: 20px;
    
   }
+  
   #score {
+    font-size: 50px;
 
   }

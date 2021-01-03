@@ -5,16 +5,16 @@ class Player {
         this.y = y;
         this.speedX = 0;
         this.speedY = 0;
-       
+
         this.width = 0
         this.height = 0
 
         this.player = new Image();
         this.player.src = "./assets/img/jackfree/spritesheet.png";
-        this.playerDead =undefined;
+        this.playerDead = undefined;
         this.player.isReady = false;
         this.isplayerDead = false;
-        this.playerDeadIsReady  =false
+        this.playerDeadIsReady = false
         this.player.horizontalFrames = 9
         this.player.verticalFrames = 1
         this.player.horizontalFrameIndex = 0
@@ -69,41 +69,41 @@ class Player {
 
     }
     drawDead() {
-  
-            this.ctx.drawImage(
-                this.playerDead,
-                this.x,      // x coordinate destination
-                this.y,      // y coordinate destination
-                this.playerDead.width/this.player.scale,   // The width to draw the image in the destination canvas.
-                this.playerDead.height/this.player.scale  //The height to draw the image in the destination canvas.
 
-            )
-      
+        this.ctx.drawImage(
+            this.playerDead,
+            this.x,      // x coordinate destination
+            this.y,      // y coordinate destination
+            this.playerDead.width / this.player.scale,   // The width to draw the image in the destination canvas.
+            this.playerDead.height / this.player.scale  //The height to draw the image in the destination canvas.
+
+        )
+
 
     }
 
     CreateplayerDead() {
         this.player.isplayerDead = true;
-        this.playerDead =new Image()
+        this.playerDead = new Image()
         this.playerDead.src = "./assets/img/jackfree/Dead.png";
 
-  
-        
-      
+
+
+
 
     }
-    isPlayerDead(){
+    isPlayerDead() {
         return this.player.isplayerDead;
     }
 
     animate() {
-      //  console.log(this.movements);
-          if (this.movements.right || this.movements.left
+        //  console.log(this.movements);
+        if (this.movements.right || this.movements.left
             || this.movements.up || this.movements.down) {
-                this.animatePlayer()
-           } else {
-             this.resetAnimation()
-           }
+            this.animatePlayer()
+        } else {
+            this.resetAnimation()
+        }
     }
 
     resetAnimation() {
@@ -129,8 +129,8 @@ class Player {
     }
 
     onKeyEvent(event) {
-   //     console.log (event.type)
-   //     console.log(event.keyCode)
+        //     console.log (event.type)
+        //     console.log(event.keyCode)
         const status = event.type === 'keydown'
         switch (event.keyCode) {
             case KEY_UP:
@@ -186,17 +186,24 @@ class Player {
     }
 
 
-    collidesWith(element){
+    collidesWith(element) {
         // if the four conditions are true there is a collition
-  //      console.log(`player collidewith ${this.x} ${this.y} ${this.image.complete}`)
-  
-       
+        //      console.log(`player collidewith ${this.x} ${this.y} ${this.image.complete}`)
 
 
-return this.x < element.x + element.width  // collition by right side
-&&  this.x + this.width > element.x              // collition by left side
-&&  this.y < element.y + element.height   // frontal collition
-&& this.y + this.height > element.y       // back collition
-   }
+
+
+        return this.x < element.x + element.width  // collition by right side
+            && this.x + this.width > element.x              // collition by left side
+            && this.y < element.y + element.height   // frontal collition
+            && this.y + this.height > element.y       // back collition
+    }
+
+    initialice(){
+        this.x = POSX_INI_PLAYER;
+        this.y = POSY_INI_PLAYER;
+        this.player.isplayerDead=false;
+        this.playerDeadIsReady = false;
+    }
     // End Class
 }

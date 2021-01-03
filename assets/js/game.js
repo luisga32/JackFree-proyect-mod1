@@ -21,6 +21,12 @@ class Game {
     this.newGroupGhosts = true;
     this.newGhost = undefined;
     this.ghostimgWidth = 33.64;
+    this.state ={
+      new:true,
+      pause:false,
+      ended:false
+
+    }
 
   }
 
@@ -98,11 +104,13 @@ class Game {
 
   draw() {
     this.board.draw();
+    this.drawScore();
 
     if (this.player.isPlayerDead()){
       // if (this.player.playerDead.isReady())
    
        this.player.drawDead();
+      
        this.pause()
     } else {
     this.player.draw();
@@ -196,6 +204,7 @@ class Game {
     const ghostCollided = this.ghosts.some(ghost => this.player.collidesWith(ghost));
 
     if (ghostCollided){
+              this.state.ended = true
               this.player.CreateplayerDead();   
  
     }
@@ -218,8 +227,38 @@ class Game {
 
   }
   pause(){
-
+    
+    this.state.pause =true;
     clearInterval(this.drawInterval)
+  
+  }
+  initialice(){
+    if (this.state.ended){
+    this.objects = []
+    this.ghosts = []
+    this.numMaxGhosts = 5
+    this.addGhostTimeoutID = undefined;
+   
+    this.objCountDraw = 0
+    this.numMaxobjects = 5;
+    this.points = 0
+    this.numghosts = 0
+    this.ghostY = 0;
+    this.ghostX = 0;
+    this.newGroupGhosts = true;
+    this.newGhost = undefined;
+
+    this.player.initialice();
+  }
+  this.drawInterval = undefined;
+  this.state.pause =false;
+  this.state.ended=false;
+
+  }
+
+  drawScore (){
+     document.querySelector('#score').innerHTML = 'SCORE: ' + this.points
+
   }
 
   // class end

@@ -21,7 +21,8 @@ class Player {
         this.player.verticalFrameIndex = 0
         this.player.scale = 13
         this.player.drawCount = 0
-
+        this.playerDeadSound = new Audio('./assets/sound/cackle3.mp3')
+        this.playerDeadSound.volume= 0.5
         this.movements = {
             up: false,
             down: false,
@@ -79,7 +80,7 @@ class Player {
 
         )
 
-
+        this.playerDeadSound.play();
     }
 
     CreateplayerDead() {

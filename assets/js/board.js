@@ -21,7 +21,7 @@ class Board{
   */
     draw(){
      
-        this.ctx.fillStyle ='green';
+        this.ctx.fillStyle ='black';
         
         this.ctx.fillRect(0,0,this.width,this.height);
         

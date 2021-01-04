@@ -21,6 +21,11 @@ class Game {
     this.newGroupGhosts = true;
     this.newGhost = undefined;
     this.ghostimgWidth = 33.64;
+
+   this.theme = new Audio('./assets/sound/ghost02.mp3')
+    this.theme.volume = 0.2
+    this.captureSound = new Audio('./assets/sound/shooting_star-Mike_Koenig-1132888100.mp3')
+    this.captureSound.volume= 0.2
     this.state ={
       new:true,
       pause:false,
@@ -36,6 +41,7 @@ class Game {
 
 
     if (!this.drawInterval) {
+      
       this.drawInterval = setInterval(() => {
         //console.log('start game')
         // control de pulsaciones del teclado
@@ -47,6 +53,7 @@ class Game {
         // check collitions betwwen car and obstacles
 
         // dibujo objetos
+        this.theme.play();
         this.clear();
         this.move();
         this.draw();
@@ -72,10 +79,15 @@ class Game {
 
 
         this.objCountDraw++
-        if (this.objCountDraw % OBJECTS_FRAME === 0 && this.objects.length < this.numMaxobjects) {
+        if (this.objCountDraw % OBJECTS_FRAME === 0 && this.objects.length <= this.numMaxobjects) {
+          if (this.objects.length < this.numMaxobjects) {
           this.addObject();
+        } else {
+          this.removeObject();
+        }
           this.objCountDraw = 0
         }
+
 
         //      this.obstDrawCount++
         // add obstacles  
@@ -164,6 +176,9 @@ class Game {
   //  this.objects.push(newObject);
 
   }
+  removeObject() {
+    this.objects.shift();
+  }
 
   
   
@@ -212,11 +227,12 @@ class Game {
       const objCollided = this.objects.filter(object => this.player.collidesWith(object));
       let index;
       if (objCollided.length > 0) {
+        this.captureSound.play();
         for (let i = 0; i < objCollided.length; i++) {
   
           this.points += objCollided[i].object.points;
           //    console.log(this.points) 
-  
+        
           objCollided[i].pointsDraw();
           index = this.objects.indexOf(objCollided[i]);
           this.objects.splice(index, 1);
@@ -229,11 +245,20 @@ class Game {
   pause(){
     
     this.state.pause =true;
+    const startButton = document.getElementById("start-button");
+    startButton.disabled = false;
+    this.theme.pause();
+
     clearInterval(this.drawInterval)
   
   }
   initialice(){
+    const startButton = document.getElementById("start-button");
+    startButton.disabled = true;  
+
     if (this.state.ended){
+      this.theme.load();
+
     this.objects = []
     this.ghosts = []
     this.numMaxGhosts = 5
@@ -247,9 +272,11 @@ class Game {
     this.ghostX = 0;
     this.newGroupGhosts = true;
     this.newGhost = undefined;
-
+    
     this.player.initialice();
   }
+ 
+  
   this.drawInterval = undefined;
   this.state.pause =false;
   this.state.ended=false;

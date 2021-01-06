@@ -10,13 +10,14 @@ class Player {
         this.height = 0
 
         this.player = new Image();
-        this.player.src = "./assets/img/jackfree/spritesheet.png";
+  
+        this.player.src = "./assets/img/jackfree/spritesheet3.png";
         this.playerDead = undefined;
         this.player.isReady = false;
         this.isplayerDead = false;
         this.playerDeadIsReady = false
         this.player.horizontalFrames = 9
-        this.player.verticalFrames = 1
+        this.player.verticalFrames = 2
         this.player.horizontalFrameIndex = 0
         this.player.verticalFrameIndex = 0
         this.player.scale = 13
@@ -108,19 +109,45 @@ class Player {
     }
 
     resetAnimation() {
+        if (this.lookRight()) {
         this.player.horizontalFrameIndex = 0
         this.player.verticalFrameIndex = 0
+    } else {
+        this.player.horizontalFrameIndex = 8
+        this.player.verticalFrameIndex = 1
+    }
     }
 
 
+/*
+    resetAnimation() {
+  
+        this.player.horizontalFrameIndex = 0
+        this.player.verticalFrameIndex = 0
+  
+    }
 
+    */
     animatePlayer() {
         if (this.player.drawCount % MOVEMENT_FRAMES === 0) {
-            if (this.player.horizontalFrameIndex === this.player.horizontalFrames - 1) {
-                this.player.horizontalFrameIndex = 1;
+            if (this.lookRight()) {
+            if ((this.player.horizontalFrameIndex === this.player.horizontalFrames - 1)
+                || (this.movements.left && this.movements.right)
+                || ( this.movements.up && this.movements.down)) {
+                this.player.horizontalFrameIndex = 0;
             } else {
                 this.player.horizontalFrameIndex++;
             }
+        } else {
+            if (this.player.horizontalFrameIndex === 0
+                || ( this.movements.left && this.movements.right)
+                || ( this.movements.up && this.movements.down)) {
+                this.player.horizontalFrameIndex = this.player.horizontalFrames -1;
+            } else {
+                this.player.horizontalFrameIndex--;
+            }
+
+        }
             this.player.drawCount = 0;
         }
 
@@ -128,50 +155,113 @@ class Player {
 
 
     }
+    /*
+    animatePlayer() {
+        if (this.player.drawCount % MOVEMENT_FRAMES === 0) {
+           
+            if (this.player.horizontalFrameIndex === this.player.horizontalFrames - 1) {
+                this.player.horizontalFrameIndex = 1;
+            } else {
+                this.player.horizontalFrameIndex++;
+            }
+       
+            this.player.drawCount = 0;
+        }
 
+
+
+
+    }
+*/
+    lookRight(){
+        return this.player.verticalFrameIndex === 0
+    }
     onKeyEvent(event) {
         //     console.log (event.type)
         //     console.log(event.keyCode)
-        const status = event.type === 'keydown'
-        switch (event.keyCode) {
-            case KEY_UP:
-                this.movements.up = status
+    
+        switch (event.type) {
+            case 'keydown':
+               
+                switch (event.keyCode) {
+                    case KEY_UP:
+                        this.movements.up = true
+                        break;
+                    case KEY_RIGHT:
+                        this.movements.right = true
+                        break;
+                    case KEY_LEFT:
+        
+                        this.movements.left = true
+                        break;
+                    case KEY_DOWN:
+                        this.movements.down = true
+                        break;
+        
+                    default:
+                        break;
+                }
                 break;
-            case KEY_RIGHT:
-                this.movements.right = status
-                break;
-            case KEY_LEFT:
-
-                this.movements.left = status
-                break;
-            case KEY_DOWN:
-                this.movements.down = status
-                break;
-
+            case 'keyup':
+                switch (event.keyCode) {
+                    case KEY_UP:
+                        this.movements.up = false
+                        break;
+                    case KEY_RIGHT:
+                        this.movements.right = false
+                        break;
+                    case KEY_LEFT:
+        
+                        this.movements.left = false
+                        break;
+                    case KEY_DOWN:
+                        this.movements.down = false
+                        break;
+        
+                    default:
+                        break;
+                }
+                break;                  
             default:
                 break;
         }
+        
+    
+
     }
     move() {
         // si se ha pulsado izquierda cambiamos la coordenada x restando para que se dibuje mas a la izquierda. Si es la derecha sumamos
-
-        if (this.movements.left) {
+    
+        console.log(`ANTES X: ${this.x} Y: ${this.y}`) 
+        this.speedX = 0;
+        this.speedY = 0;
+       
+        if (this.movements.left && !this.movements.right) {
             this.speedX = -SPEED
-        } else if (this.movements.right) {
+   
+            this.player.verticalFrameIndex = 1
+ 
+        } else  if (this.movements.right && !this.movements.left) {
             this.speedX = SPEED;
-        } else if (this.movements.up) {
-            this.speedY = - SPEED;
-        } else if (this.movements.down) {
-            this.speedY = SPEED;
-
+  
+            this.player.verticalFrameIndex = 0
+ 
         }
-        else {
-            this.speedX = 0;
-            this.speedY = 0;
+        
+    
+        if (this.movements.up && !this.movements.down) {
+            this.speedY = - SPEED;
+  
+
+        } else if (this.movements.down && !this.movements.up) {
+            this.speedY = SPEED;
+  
+ 
         }
         // asignamos las nuevas coordenadas al objeto
         this.x += this.speedX;
         this.y += this.speedY;
+ 
         // controlamos límites
 
         if (this.x + this.width >= this.ctx.canvas.width) {
@@ -189,11 +279,7 @@ class Player {
 
     collidesWith(element) {
         // if the four conditions are true there is a collition
-        //      console.log(`player collidewith ${this.x} ${this.y} ${this.image.complete}`)
-
-
-
-
+ 
         return this.x < element.x + element.width  // collition by right side
             && this.x + this.width > element.x              // collition by left side
             && this.y < element.y + element.height   // frontal collition
@@ -205,6 +291,7 @@ class Player {
         this.y = POSY_INI_PLAYER;
         this.player.isplayerDead=false;
         this.playerDeadIsReady = false;
+        this.player.verticalFrameIndex = 0;
     }
     // End Class
 }

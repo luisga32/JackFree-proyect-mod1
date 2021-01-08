@@ -274,24 +274,40 @@ class Game {
   }
 
   drawScore() {
-    /*
+   //  let score=document.querySelector('.score')
+    //score.innerHTML='';
+   
     this.scoreObjects.forEach (object => {
+      let id ='#'+object.name;
+      
+      document.querySelector(id).innerHTML =': '+ object.score;
+       /*
+
       let divTag= document.createElement('div');
       let imgTag = document.createElement('img');
       let spanTag= document.createElement('span');
       imgTag.src=object.imagePath;
       imgTag.id=object.name;
-      spanTag=': '+ object.score;
+     // spanTag.width ='25px';
+    // spanTag.setAttribute("width","25px")
+     
+
+      spanTag.innerHTML=': '+ object.score;
       divTag.appendChild(imgTag);
       divTag.appendChild(spanTag);
-      document.querySelector('.score').innerHTML =divTag;
+      score.innerHTML +=divTag.innerHTML;
 
-
+ */
      
       }
      )
-    */
-    document.querySelector('#total-score').innerHTML = 'SCORE: ' + this.points
+    /*
+     let h2Tag = document.createElement('h2');
+     h2Tag.id='#total-score';
+     h2Tag.innerHTML='SCORE: ' + this.points;
+     score.innerHTML +=h2Tag.innerHTML;
+        */
+     document.querySelector('#total-score').innerHTML = 'SCORE: ' + this.points
 
   }
   loadScoreObjects() {

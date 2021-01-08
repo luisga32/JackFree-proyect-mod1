@@ -232,7 +232,7 @@ class Player {
     move() {
         // si se ha pulsado izquierda cambiamos la coordenada x restando para que se dibuje mas a la izquierda. Si es la derecha sumamos
     
-        console.log(`ANTES X: ${this.x} Y: ${this.y}`) 
+ 
         this.speedX = 0;
         this.speedY = 0;
        

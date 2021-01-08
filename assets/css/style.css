@@ -40,6 +40,7 @@ background: linear-gradient(90deg, rgba(117,57,83,1) 0%, rgba(78,6,91,1) 94%);
     height: 80px;
     object-fit: contain;
     margin-left: 30px;
+    transform: rotateY(180deg);
   }
   
 main {
@@ -70,6 +71,7 @@ canvas {
   
    width: 32%;
    font-size: 30px;
+   border: 5px solid orangered;
 
  }
  #menu {
@@ -85,8 +87,18 @@ canvas {
    margin: 20px;
    
   }
+
+  .score {
+    padding-left:25px;
+    font-size: 50px;
+  }
   
-  #score {
+   #total-score {
     font-size: 50px;
 
+  }
+  
+  #witch {
+    width: 60px;
+    height: 50px;
   }

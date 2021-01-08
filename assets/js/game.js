@@ -9,6 +9,7 @@ class Game {
 
     this.objects = []
     this.ghosts = []
+    this.scoreObjects =[]
     this.numMaxGhosts = 5
     this.addGhostTimeoutID = undefined;
     this.drawInterval = undefined;
@@ -210,8 +211,12 @@ class Game {
       for (let i = 0; i < objCollided.length; i++) {
 
         this.points += objCollided[i].object.points;
-        //    console.log(this.points) 
-
+        this.scoreObjects.forEach (object => {
+          if (object.name === objCollided[i].object.name){
+            objCollided[i].object.score++;
+          }
+        })
+        console.log(this.scoreObjects)
         objCollided[i].pointsDraw();
         index = this.objects.indexOf(objCollided[i]);
         this.objects.splice(index, 1);
@@ -251,20 +256,48 @@ class Game {
       this.ghostX = 0;
       this.newGroupGhosts = true;
       this.newGhost = undefined;
-
+      this.state.new=true;
+    
       this.player.initialice();
+    }
+    if (this.state.new){
+      this.loadScoreObjects();
     }
 
 
     this.drawInterval = undefined;
     this.state.pause = false;
     this.state.ended = false;
+    this.state.new=false;
+   
 
   }
 
   drawScore() {
-    document.querySelector('#score').innerHTML = 'SCORE: ' + this.points
+    /*
+    this.scoreObjects.forEach (object => {
+      let divTag= document.createElement('div');
+      let imgTag = document.createElement('img');
+      let spanTag= document.createElement('span');
+      imgTag.src=object.imagePath;
+      imgTag.id=object.name;
+      spanTag=': '+ object.score;
+      divTag.appendChild(imgTag);
+      divTag.appendChild(spanTag);
+      document.querySelector('.score').innerHTML =divTag;
 
+
+     
+      }
+     )
+    */
+    document.querySelector('#total-score').innerHTML = 'SCORE: ' + this.points
+
+  }
+  loadScoreObjects() {
+    this.scoreObjects=IMAGES;
+   this.scoreObjects.forEach (object =>   object.score = 0)
+  
   }
 
   // class end
